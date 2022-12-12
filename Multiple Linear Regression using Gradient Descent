@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as mp
+from sklearn import linear_model
+import math
+
+df=pd.read_csv("multivar.csv")
+df
+md=math.floor(df.bedrooms.median())
+md
+df.bedrooms=df.bedrooms.fillna(md)
+df
+
+reg=linear_model.LinearRegression()
+reg.fit(df[['area','bedrooms','old']],df.price)
+
+reg.predict([[3000,3,40]])
+arr=reg.coef_
+arr
+c=reg.intercept_
+c
+m1=arr[0]
+m2=arr[1]
+m3=arr[2]
+area=int(input("enter area of home :"))
+bedrooms=int(input("enter no of rooms :"))
+old=int(input("enter how much old is home :"))
+
+price=(m1*area)
++(m2*bedrooms)+(m3*old)+c
+print("price :",price)
