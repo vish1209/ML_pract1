@@ -1,0 +1,29 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data=pd.read_csv('B:\Machine learning\Practicals\Train.csv')
+print(data)
+x=data.iloc[:,0]
+y=data.iloc[:,1]
+plt.scatter(x,y, color='black')
+plt.show()
+m=c=0
+l=0.0001
+ittrations=1000
+n=len(x)
+
+for i in range(n):
+    y_pre=m*x+c
+    d_m=(-2/n)*sum(x*(y - y_pre))
+    d_c=(-2/n)*sum(y - y_pre)
+    
+    m=m- (l * d_m)
+    c=c- (l * d_c)
+    
+print(m,c)
+y_pre=m*x+c
+
+plt.scatter(x,y)
+plt.plot(x,y_pre, color='black')
+plt.show()
