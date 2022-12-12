@@ -1,0 +1,25 @@
+import numpy as np
+from sklearn import metrics,datasets
+from sklearn.cluster import KMeans
+# load the iris dataset
+data,target = datasets.load_iris(return_X_y=True)
+#Splitting the data into training and testing
+X_train = data[range(0,150,2),:]
+X_test = data[range(1,150,2),:]
+#Calling the KMeans classifier and fitting the training the set into the model
+model = KMeans(n_clusters=3)
+model.fit(X_train)
+model.labels_
+#Predicting the output using KMeans classifier
+prediction = model.predict(X_test)
+prediction
+print(model.cluster_centers_)
+
+'''
+Determining the clusters and printing. 
+Here we can see that there are 3 lists each with 4 instances in it,
+ it means that each list is n_cluster and 
+ the 4 instances in one list represent the 4 features present
+  in the iris dataset.
+  3 clusters are there!
+'''
