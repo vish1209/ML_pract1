@@ -1,0 +1,83 @@
+#decision tree
+#Loading the libraries and importing them
+import numpy as np
+from sklearn import datasets,metrics
+from sklearn.tree import DecisionTreeClassifier
+
+#loads previously installed boston database
+X , y = datasets.load_iris(return_X_y=True)
+
+#Splitting the data into train_data, train_target, test_data, test_target
+#for training set we took even no. of examples
+X_t=X[range(0,150,2),:]
+y_t=y[range(0,150,2)]
+
+#for test set we took odd no. of examples
+X_t1=X[range(1,150,2),:]
+y_t1=y[range(1,150,2)]
+
+#Applying the Decision Tree Classifier with selecting the criteria as entropy
+#Default value is gini 
+clf=DecisionTreeClassifier(criterion='gini')
+
+#Fitting the train and test data
+
+clf.fit(X_t,y_t)
+#predict using training dataset
+
+prediction = clf.predict(X_t1)
+
+print("prediction : ",prediction)
+print("Accuracy = ", metrics.accuracy_score(y_t1,prediction,normalize=True))
+print(metrics.classification_report(y_t1,prediction))
+
+print(metrics.confusion_matrix(y_t1,prediction))
+
+
+
+
+
+orrrrrrrrrrr
+
+
+from sklearn.datasets import make_classification
+from sklearn import tree
+from sklearn.model_selection import train_test_split
+
+X, t = make_classification(100, 5, n_classes=2, shuffle=True, random_state=10)
+X_train, X_test, t_train, t_test = train_test_split(
+	X, t, test_size=0.3, shuffle=True, random_state=1)
+
+model = tree.DecisionTreeClassifier()
+model = model.fit(X_train, t_train)
+
+predicted_value = model.predict(X_test)
+print(predicted_value)
+
+tree.plot_tree(model)
+
+zeroes = 0
+ones = 0
+for i in range(0, len(t_train)):
+	if t_train[i] == 0:
+		zeroes += 1
+	else:
+		ones += 1
+
+print(zeroes)
+print(ones)
+
+val = 1 - ((zeroes/70)*(zeroes/70) + (ones/70)*(ones/70))
+print("Gini :", val)
+
+match = 0
+UnMatch = 0
+
+for i in range(30):
+	if predicted_value[i] == t_test[i]:
+		match += 1
+	else:
+		UnMatch += 1
+
+accuracy = match/30
+print("Accuracy is: ", accuracy)
