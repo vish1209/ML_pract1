@@ -1,0 +1,10 @@
+import numpy as np
+from sklearn.naive_bayes import GaussianNB
+x=np.array([[6,100,10],[7,130,12],[5.8,90,9],[5.5,70,8],[5,60,6],[6.5,100,11],[5.7,80,9]])
+y=np.array([["male"],["male"],["female"],["female"],["female"],["male"],["female"]])
+
+clf= GaussianNB()
+
+clf.fit(x,y)
+
+clf.predict([[7,10,12]])
