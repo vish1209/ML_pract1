@@ -1,0 +1,77 @@
+##linear
+
+import numpy as np
+from sklearn import svm
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+import pandas as pd
+from sklearn.svm import SVC
+iris = load_iris()
+iris_pd = pd.DataFrame(iris.data, columns =['s1', 'sw', 'p1', 'pw'])
+iris_pd['species']=iris.target
+
+iris_pd
+iris_sv=iris_pd.iloc[0:100,:]
+iris_data=iris_sv[['p1', 'pw']]
+
+Y=iris_sv[['species']]
+iris_data
+clf=SVC(kernel = 'linear')
+clf.fit(iris_data, Y)
+clf.predict([[1.5, 0.5]])
+clf.predict([[4.5, 2]])
+[[w1, w2]]=clf.coef_
+b=clf.intercept_
+w1
+w2
+b
+
+import seaborn as sns
+sns.scatterplot(x='p1', y='pw', data=iris_sv, hue='species')
+xaxis=np.linspace(1.5, 3.5, 200)
+yaxis=-w1/w2*xaxis - b/w2
+plt.plot(xaxis, yaxis)
+plt.text(3.5, -5, '$w_1x_1+w_2x_2+b = 0$')
+
+
+##non linear
+
+
+from sklearn.datasets import make_circles
+from mpl_toolkits.mplot3d import Axes3D
+
+X, Y = make_circles(n_samples = 500, noise = 0.02)
+
+
+plt.scatter(X[:, 0], X[:, 1], c = Y, marker = '.')
+plt.show()
+
+X1 = X[:, 0].reshape((-1, 1))
+X2 = X[:, 1].reshape((-1, 1))
+X3 = (X1**2 + X2**2)
+X = np.hstack((X, X3))
+
+
+fig = plt.figure()
+axes = fig.add_subplot(111, projection = '3d')
+axes.scatter(X1, X2, X1**2 + X2**2, c = Y, depthshade = True)
+plt.show()
+
+from sklearn import svm
+
+svc = svm.SVC(kernel = 'linear')
+svc.fit(X, Y)
+w = svc.coef_
+b = svc.intercept_
+
+x1 = X[:, 0].reshape((-1, 1))
+x2 = X[:, 1].reshape((-1, 1))
+x1, x2 = np.meshgrid(x1, x2)
+x3 = -(w[0][0]*x1 + w[0][1]*x2 + b) / w[0][2]
+
+fig = plt.figure()
+axes2 = fig.add_subplot(111, projection = '3d')
+axes2.scatter(X1, X2, X1**2 + X2**2, c = Y, depthshade = True)
+axes1 = fig.gca(projection = '3d')
+axes1.plot_surface(x1, x2, x3, alpha = 0.01)
+plt.show()
