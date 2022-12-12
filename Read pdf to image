@@ -1,0 +1,9 @@
+pip install tabula-py 
+import tabula
+pdf_path = "/content/pdff.pdf"
+tabula.read_pdf(pdf_path, stream=True)
+# if not working use "tabula.io.read_pdf"
+dfs = tabula.read_pdf(pdf_path, pages="all")
+len(dfs)
+dfs = tabula.read_pdf(pdf_path, pages="all")
+len(dfs)
