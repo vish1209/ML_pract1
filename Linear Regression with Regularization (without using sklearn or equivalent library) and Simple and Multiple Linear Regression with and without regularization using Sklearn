@@ -1,0 +1,42 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+import warnings 
+warnings.filterwarnings('ignore')
+ds=pd.read_csv("melborn.csv")
+ds.head()
+ds.nunique()
+ds.shape
+cols_to_use=['Suburb','Rooms','Type','Price','Method','SellerG','Distance','Bedroom2','Bathroom','Car','Landsize','BuildingArea','CouncilArea','Regionname','Propertycount']
+ds=ds[cols_to_use]
+ds.head()
+cols_to_fillzero=['Propertycount','Distance','Bedroom2','Bathroom','Car']
+ds[cols_to_fillzero]=ds[cols_to_fillzero].fillna(0)
+ds.isna().sum()
+ds['Landsize']=ds['Landsize'].fillna(ds.Landsize.mean())
+ds['BuildingArea']=ds['BuildingArea'].fillna(ds.BuildingArea.mean())
+
+ds.isna().sum()
+ds.dropna(inplace=True)
+ds.isna().sum()
+ds=pd.get_dummies(ds, drop_first=True)
+ds.head()
+x=ds.drop('Price',axis=1)
+y=ds['Price']
+from sklearn.model_selection import train_test_split
+train_x, test_x, train_y, test_y=train_test_split(x,y, test_size=0.3, random_state=2)
+from sklearn.linear_model import LinearRegression
+
+reg=LinearRegression().fit(train_x, train_y)
+reg.score(test_x, test_y)
+reg.score(train_x, train_y)
+
+from sklearn import linear_model
+lasso_reg = linear_model.Lasso(alpha=50, max_iter=100, tol=0.1)
+lasso_reg.fit(train_x, train_y)
+from sklearn import linear_model
+lasso_reg = linear_model.Lasso(alpha=50, max_iter=100, tol=0.1)
+lasso_reg.fit(train_x, train_y)
+lasso_reg.score(test_x, test_y)
+lasso_reg.score(train_x, train_y)
